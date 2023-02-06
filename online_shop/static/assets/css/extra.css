@@ -1,3 +1,13 @@
+.Login {
+  visibility: visible;
+  margin-top: auto;
+}
+
+.Login form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .Account {
   visibility: visible;
 }

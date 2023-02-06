@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% csrf_token %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/fonts.css?v=59752318">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/basic.css?v=59752318">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/extra.css?v=59752318">
+{% endblock %}
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Регистрация</title>
+    </head>
+    <body>
+    <div class="Middle-top" style="margin-bottom: auto">
+        <div class="wrap">
+            <div class="Middle-header">
+                <h1 class="Middle-title">
+                    Register
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="Section-content">
+            <form class="form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn_default" type="submit">Sign up</button>
+            </form>
+        </div>
+    </div>
+    </body>
+{% endblock %}

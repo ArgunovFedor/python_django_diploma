@@ -1,0 +1,53 @@
+version: "3.5"
+services:
+  web:
+    image: online_shop
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    environment:
+      ENV: Development
+      CONSUL_AGENT_ADDRESS: consul-server
+      CONSUL_CHECK_URL: http://consul-server:8500/healthy/
+      CONSUL_SERVICE_NAME: online_shop/settings.yaml
+      CONSUL_SERVICE_ADDRESS: consul-server
+      CONSUL_PORT: 8500
+      CONSUL_KEYVALUE_PATH: OnlineShop/settings.json
+      POSTGRES_ENGINE: django.db.backends.postgresql_psycopg2
+      POSTGRES_NAME: OnlineShop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Qwerty123!
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5433
+      EMAIL_HOST: 'smtp.mail.ru'
+      EMAIL_HOST_USER: 'sample@internet.ru'
+      EMAIL_HOST_PASSWORD: '********'
+      EMAIL_PORT: 587
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: on-failure
+    links:
+      - consul-server
+    depends_on:
+      - postgres
+  consul-server:
+    image: consul:latest
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+  postgres:
+    image: postgres
+    expose:
+      - "5433"
+    ports:
+      - '5433:5433'
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Qwerty123!
+    command: -p 5433

@@ -1,5 +1,6 @@
 /online_shop/.venv/
 /online_shop/.idea/
 /online_shop/db.sqlite3
-.idea/
+*.idea/
 /.idea/
+/online_shop/media/images/
