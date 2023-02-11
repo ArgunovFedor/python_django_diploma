@@ -10,18 +10,11 @@ from rolepermissions.roles import assign_role
 
 from app_users.forms import RegisterForm, RestorePasswordForm
 from app_users.roles import Сlient
+from app_users.models import UserProfile
 
 
 def account_view(request):
-    if (request.method == 'GET'):
-        items = Spravochnik.objects.all()
-        context = {
-            'items': items
-        }
-        pass
-    else:
-        pass
-    return render(request, 'users/account.html', context=context)
+    return render(request, 'users/account.html')
 
 
 def profile_view(request):
@@ -69,6 +62,7 @@ def register_view(request):
             birthday = form.cleaned_data.get('birthday')
             city = form.cleaned_data.get('city')
             user = authenticate(username=username, password=row_password, date_of_birth=birthday, city=city)
+            UserProfile.objects.create(user=user, date_of_birth=birthday, city=city, balance=0, avatar='images/avatars/default.png')
             assign_role(user, Сlient)
             login(request, user)
             return redirect('/')

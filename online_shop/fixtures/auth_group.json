@@ -1,0 +1,23 @@
+[
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "сlient",
+        "permissions": []
+    }
+},
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "moderator",
+        "permissions": []
+    }
+},
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "system_admin",
+        "permissions": []
+    }
+}
+]

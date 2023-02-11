@@ -114,6 +114,6 @@ TODO: записать контакты
 ## Полезные команды
 ```shell
 # Обновляем фикстуры
-python manage.py updatefixtures
-# В случае ошибки отредактировать файл updatefixtures
+python manage.py makefixtures
+# В случае ошибки отредактировать файл makefixtures
 ```
