@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=36, blank=True)
     balance = models.IntegerField(default=0, verbose_name='Balance')
     avatar = models.FileField(blank=True, verbose_name='аватарка профиля', upload_to='images/avatars')
+    patronymic = models.CharField(max_length=100, verbose_name='Отчество')
 
     class Meta:
         db_table = 'UserProfile'

@@ -60,10 +60,12 @@ def register_view(request):
             form.save()
             username = form.cleaned_data.get('username')
             row_password = form.cleaned_data.get('password1')
-            birthday = form.cleaned_data.get('birthday')
+            date_of_birth = form.cleaned_data.get('date_of_birth')
             city = form.cleaned_data.get('city')
-            user = authenticate(username=username, password=row_password, date_of_birth=birthday, city=city)
-            UserProfile.objects.create(user=user, date_of_birth=birthday, city=city, balance=0,
+            patronymic = form.cleaned_data.get('patronymic')
+            user = authenticate(username=username, password=row_password, date_of_birth=date_of_birth, city=city)
+            UserProfile.objects.create(user=user, date_of_birth=date_of_birth, city=city, balance=0,
+                                       patronymic=patronymic,
                                        avatar='images/avatars/default.png')
             assign_role(user, 'client')
             login(request, user)

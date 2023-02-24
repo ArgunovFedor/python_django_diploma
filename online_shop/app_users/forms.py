@@ -10,10 +10,11 @@ class RegisterForm(UserCreationForm):
     email = forms.EmailField()
     date_of_birth = forms.DateTimeField(widget=SelectDateWidget())
     city = forms.CharField(required=False, help_text='Город', max_length=36)
+    patronymic = forms.CharField(max_length=100, required=False, help_text='Отчество')
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'patronymic', 'email', 'password1', 'password2')
 
 
 class RestorePasswordForm(forms.Form):

@@ -6,7 +6,8 @@
         "date_of_birth": null,
         "city": "New Tea",
         "balance": 0,
-        "avatar": "images/avatars/default.png"
+        "avatar": "images/avatars/default.png",
+        "patronymic": "Ivanovich"
     }
 }
 ]
