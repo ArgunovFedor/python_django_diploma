@@ -12,5 +12,3 @@ class Command(BaseCommand):
         call_command('loaddata', './fixtures/auth_user.json')
         call_command('loaddata', './fixtures/userProfile.json')
         call_command('loaddata', './fixtures/review.json')
-        call_command('loaddata', './fixtures/auth_user_groups.json')
-        call_command('loaddata', './fixtures/auth_user_user_permissions.json')

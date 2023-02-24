@@ -26,13 +26,3 @@ class Command(BaseCommand):
         self.execute_command(sysout, 'auth_user', 'auth.user')
         # сохраняем фикстуру UserProfile
         self.execute_command(sysout, 'userProfile', 'app_users.UserProfile')
-        # сохраняем фикстуру auth_group
-        self.execute_command(sysout, 'auth_group', 'auth.group')
-        # сохраняем фикстуру auth_group_permissions
-        self.execute_command(sysout, 'auth_group_permissions', 'auth.group_permissions')
-        # сохраняем фикстуру auth_permission
-        self.execute_command(sysout, 'auth_permission', 'auth.permission')
-        # сохраняем фикстуру auth_user_groups
-        self.execute_command(sysout, 'auth_user_groups', 'auth.user_groups')
-        # сохраняем фикстуру auth_user_user_permissions
-        self.execute_command(sysout, 'auth_user_user_permissions', 'auth.user_user_permissions')

@@ -7,16 +7,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
+from rolepermissions.decorators import has_role_decorator
 
 from app_users.forms import RegisterForm, RestorePasswordForm
-from app_users.roles import Сlient
 from app_users.models import UserProfile
 
 
+@has_role_decorator('client')
 def account_view(request):
     return render(request, 'users/account.html')
 
-
+@has_role_decorator('client')
 def profile_view(request):
     return render(request, 'users/profile.html')
 
@@ -62,8 +63,9 @@ def register_view(request):
             birthday = form.cleaned_data.get('birthday')
             city = form.cleaned_data.get('city')
             user = authenticate(username=username, password=row_password, date_of_birth=birthday, city=city)
-            UserProfile.objects.create(user=user, date_of_birth=birthday, city=city, balance=0, avatar='images/avatars/default.png')
-            assign_role(user, Сlient)
+            UserProfile.objects.create(user=user, date_of_birth=birthday, city=city, balance=0,
+                                       avatar='images/avatars/default.png')
+            assign_role(user, 'client')
             login(request, user)
             return redirect('/')
     else:

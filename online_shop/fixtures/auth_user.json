@@ -2,22 +2,27 @@
 {
     "model": "auth.user",
     "fields": {
-        "password": "pbkdf2_sha256$260000$EscAySVqAKU8PuYhovzMt3$QwhiEZf2Mek1e/ArwsLfqDOFNmlFdxnn0UGn5BSszTo=",
-        "last_login": "2023-02-19T06:28:24.449Z",
+        "password": "pbkdf2_sha256$260000$Bj6XpITYYqP3pYwllDWo2p$A4lAzHIKSE+i3hAI134gf50bpFZZElYEQCv3zBztRgo=",
+        "last_login": "2023-02-24T09:27:28.141Z",
         "is_superuser": false,
         "username": "user",
-        "first_name": "test",
-        "last_name": "test",
-        "email": "test@mail.ru",
+        "first_name": "Ivan",
+        "last_name": "Ivanov",
+        "email": "mail@mail.ru",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2023-02-19T06:28:23.171Z",
+        "date_joined": "2023-02-24T09:07:11.080Z",
         "groups": [
             [
-                "сlient"
+                "client"
             ]
         ],
         "user_permissions": [
+            [
+                "account_view",
+                "auth",
+                "user"
+            ],
             [
                 "add_cart_item",
                 "auth",
