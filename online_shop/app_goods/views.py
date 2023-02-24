@@ -90,7 +90,7 @@ def sale_view(request):
 
 
 def history_order_view(request):
-    return render(request, 'goods/historyorder.html')
+    return render(request, 'order/historyorder.html')
 
 
 def one_order_view(request):
