@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'phonenumber_field',
     'app_users',
     'app_goods',
     'rolepermissions',
@@ -136,6 +137,8 @@ USE_TZ = True
 
 # Добавление ролей
 ROLEPERMISSIONS_MODULE = 'app_users.roles'
+ROLEPERMISSIONS_REGISTER_ADMIN = True
+ROLEPERMISSIONS_SUPERUSER_SUPERPOWERS = False
 ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True
 
 STATIC_URL = '/static/'

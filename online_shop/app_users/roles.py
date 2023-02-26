@@ -1,14 +1,16 @@
 from rolepermissions.roles import AbstractUserRole
 
 
-class Сlient(AbstractUserRole):
+# TODO: баг. Не заполняется auth_group_permissions. Поэтому приходится через админку его заполнять
+class Client(AbstractUserRole):
     """
     Обычны клиент магазина
     """
     available_permissions = {
         'add_cart_item': True,
         'top_up_balance': True,
-        'make_an_order': True
+        'make_an_order': True,
+        'account_view': True,
     }
 
 

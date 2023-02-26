@@ -1,1 +1,44 @@
-[{"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$260000$cu0nXhksVNgyyvBde0bqNv$KBDFYj4cJSGAxSQJyE3Y8rOdMnVJGaoVjkRJNRncaxo=", "last_login": "2023-01-29T09:00:56Z", "is_superuser": true, "username": "admin", "first_name": "Admin", "last_name": "Admin", "email": "", "is_staff": true, "is_active": true, "date_joined": "2023-01-29T09:00:35Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$260000$5fFgkBwo5DUO24MI32K62s$57cU4+w/WMnIJmPHKjCzhbyM6iFfHTOoe6IixR0k2fs=", "last_login": null, "is_superuser": false, "username": "user2", "first_name": "Ivan", "last_name": "Ivanovich", "email": "", "is_staff": false, "is_active": true, "date_joined": "2023-01-29T09:02:31Z", "groups": [], "user_permissions": []}}]
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$260000$Bj6XpITYYqP3pYwllDWo2p$A4lAzHIKSE+i3hAI134gf50bpFZZElYEQCv3zBztRgo=",
+        "last_login": "2023-02-24T09:39:26.027Z",
+        "is_superuser": false,
+        "username": "user",
+        "first_name": "Ivan",
+        "last_name": "Ivanov",
+        "email": "mail@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-02-24T09:07:11.080Z",
+        "groups": [
+            [
+                "client"
+            ]
+        ],
+        "user_permissions": [
+            [
+                "account_view",
+                "auth",
+                "user"
+            ],
+            [
+                "add_cart_item",
+                "auth",
+                "user"
+            ],
+            [
+                "make_an_order",
+                "auth",
+                "user"
+            ],
+            [
+                "top_up_balance",
+                "auth",
+                "user"
+            ]
+        ]
+    }
+}
+]

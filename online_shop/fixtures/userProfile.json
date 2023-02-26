@@ -1,1 +1,13 @@
-[{"model": "app_users.userprofile", "pk": 1, "fields": {"date_of_birth": "2023-02-05", "city": "AdminGrad", "balance": 77777, "avatar": ""}}, {"model": "app_users.userprofile", "pk": 2, "fields": {"date_of_birth": "2023-02-05", "city": "City", "balance": 5000, "avatar": ""}}]
+[
+{
+    "model": "app_users.userprofile",
+    "pk": 1,
+    "fields": {
+        "date_of_birth": null,
+        "city": "New Tea",
+        "balance": 0,
+        "avatar": "images/avatars/default.png",
+        "patronymic": "Ivanovich"
+    }
+}
+]

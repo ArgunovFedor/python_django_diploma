@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% include "navigation_bar.html" %}
 {% csrf_token %}
 {% load static %}
 {% block css %}
@@ -6,6 +7,10 @@
   <link rel="stylesheet" href="{% get_static_prefix %}assets/css/basic.css?v=77507106">
   <link rel="stylesheet" href="{% get_static_prefix %}assets/css/extra.css?v=77507106">
 {% endblock %}
+
+{% block navigation %}
+{% endblock %}
+
 {% block content %}
   <div class="Middle Middle_top">
     <div class="Middle-top">
@@ -24,37 +29,20 @@
     </div>
     <div class="Section Section_column Section_columnLeft">
       <div class="wrap">
-        <div class="Section-column">
-          <div class="Section-columnSection">
-            <header class="Section-header">
-              <strong class="Section-title">Навигация
-              </strong>
-            </header>
-            <div class="Section-columnContent">
-              <div class="NavigateProfile">
-                <ul class="menu menu_vt">
-                  <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="account.html">Личный кабинет</a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="{% url 'profile' %}">Профиль</a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="{% url 'history-order' %}">История заказов</a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="historyview.html">История просмотра</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+         {% include "users/navigation_bar.html" %}
         <div class="Section-content">
           <div class="Account">
             <div class="Account-group">
               <div class="Account-column">
-                <div class="Account-avatar"><img src="{% static 'assets/img/content/home/card.jpg' %}"  alt="card.jpg"/>
-                </div>
+                  <div class="Account-avatar">
+                      <img src="{% if user.userprofile %}{{ user.userprofile.avatar.url }}" alt="{{ user.userprofile.avatar.name }}"/>
+                  {% else %}
+                     <img src="{% get_media_prefix %}images/avatars/default.png" alt="avatar.jpg"/>
+                  {% endif %}
+                  </div>
               </div>
               <div class="Account-column">
-                <div class="Account-name">Иванов Иван Иванович
+                <div class="Account-name">{{ user.first_name}} {{user.last_name}} {{user.userprofile.patronymic}}
                 </div><a class="Account-editLink" href="{% url 'profile' %}">Редактировать профиль</a>
               </div>
             </div>
@@ -104,6 +92,3 @@
         </div>
       </div>
 {% endblock %}
-{% for item in items %}
-    {{ item. }}
-{% endfor %}

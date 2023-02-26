@@ -90,15 +90,15 @@ def sale_view(request):
 
 
 def history_order_view(request):
-    return render(request, 'goods/historyorder.html')
+    return render(request, 'order/historyorder.html')
 
 
 def one_order_view(request):
     return render(request, 'goods/oneorder.html')
 
-
+@has_role_decorator('client')
 def order_view(request):
-    return render(request, 'order.html')
+    return render(request, 'order/order.html')
 
 
 @has_role_decorator('client')
@@ -109,10 +109,13 @@ def add_cart_item_view(request, *args, **kwargs):
     :param request:
     :return:
     """
-
     if request.method == 'GET':
         item_id = request.GET['product_id']
-        count = try_parse_int(request.GET['count'])
+        count_from_get = request.GET.get('count')
+        if count_from_get is not None:
+            count = try_parse_int(request.GET['count'])
+        else:
+            count = 1
         item = ShoppingCart.objects.filter(user_id=request.user.id, item_id=item_id).first()
         if item is None:
             ShoppingCart.objects.create(user_id=request.user.id, item_id=item_id, count=count)

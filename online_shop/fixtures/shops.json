@@ -1,1 +1,9 @@
-[{"model": "app_goods.shop", "pk": 1, "fields": {"name": "HelloShop"}}]
+[
+{
+    "model": "app_goods.shop",
+    "pk": 1,
+    "fields": {
+        "name": "HelloShop"
+    }
+}
+]

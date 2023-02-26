@@ -7,25 +7,32 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
+from rolepermissions.decorators import has_role_decorator
 
-from app_users.forms import RegisterForm, RestorePasswordForm
-from app_users.roles import Сlient
+from app_users.forms import RegisterForm, RestorePasswordForm, ProfileForm
+from app_users.models import UserProfile
 
 
+@has_role_decorator('client')
 def account_view(request):
-    if (request.method == 'GET'):
-        items = Spravochnik.objects.all()
-        context = {
-            'items': items
-        }
-        pass
-    else:
-        pass
-    return render(request, 'users/account.html', context=context)
+    return render(request, 'users/account.html')
 
-
+@has_role_decorator('client')
 def profile_view(request):
-    return render(request, 'users/profile.html')
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if form.is_valid():
+            password = form.cleaned_data.get('password')
+            password_confirm = form.cleaned_data.get('password_confirm')
+            if password != password_confirm:
+                form.add_error('password', 'Пароль и пароль подтверждения должны быть одинаковыми')
+                form.add_error('password_confirm', 'Пароль и пароль подтверждения должны быть одинаковыми')
+                return render(request, 'users/profile.html', {'form': form})
+            form.save()
+            return render(request, 'users/profile.html', {'form': form})
+    else:
+        form = ProfileForm(instance=request.user.userprofile)
+    return render(request, 'users/profile.html', {'form': form})
 
 
 class CustomLoginView(LoginView):
@@ -66,10 +73,14 @@ def register_view(request):
             form.save()
             username = form.cleaned_data.get('username')
             row_password = form.cleaned_data.get('password1')
-            birthday = form.cleaned_data.get('birthday')
+            date_of_birth = form.cleaned_data.get('date_of_birth')
             city = form.cleaned_data.get('city')
-            user = authenticate(username=username, password=row_password, date_of_birth=birthday, city=city)
-            assign_role(user, Сlient)
+            patronymic = form.cleaned_data.get('patronymic')
+            user = authenticate(username=username, password=row_password, date_of_birth=date_of_birth, city=city)
+            UserProfile.objects.create(user=user, date_of_birth=date_of_birth, city=city, balance=0,
+                                       patronymic=patronymic,
+                                       avatar='images/avatars/default.png')
+            assign_role(user, 'client')
             login(request, user)
             return redirect('/')
     else:
