@@ -96,7 +96,7 @@ def history_order_view(request):
 def one_order_view(request):
     return render(request, 'goods/oneorder.html')
 
-
+@has_role_decorator('client')
 def order_view(request):
     return render(request, 'order/order.html')
 
@@ -109,7 +109,6 @@ def add_cart_item_view(request, *args, **kwargs):
     :param request:
     :return:
     """
-    print(request.user.user_permissions.all())
     if request.method == 'GET':
         item_id = request.GET['product_id']
         count_from_get = request.GET.get('count')
