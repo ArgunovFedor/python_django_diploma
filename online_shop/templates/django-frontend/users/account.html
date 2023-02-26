@@ -34,11 +34,15 @@
           <div class="Account">
             <div class="Account-group">
               <div class="Account-column">
-                <div class="Account-avatar"><img src="{% static 'assets/img/content/home/card.jpg' %}"  alt="card.jpg"/>
-                </div>
+                  <div class="Account-avatar">
+                      <img src="{% if user.userprofile %}{{ user.userprofile.avatar.url }}" alt="{{ user.userprofile.avatar.name }}"/>
+                  {% else %}
+                     <img src="{% get_media_prefix %}images/avatars/default.png" alt="avatar.jpg"/>
+                  {% endif %}
+                  </div>
               </div>
               <div class="Account-column">
-                <div class="Account-name">{{ user.first_name}} {{user.last_name}}
+                <div class="Account-name">{{ user.first_name}} {{user.last_name}} {{user.userprofile.patronymic}}
                 </div><a class="Account-editLink" href="{% url 'profile' %}">Редактировать профиль</a>
               </div>
             </div>

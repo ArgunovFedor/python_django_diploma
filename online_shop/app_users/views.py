@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_role_decorator
 
-from app_users.forms import RegisterForm, RestorePasswordForm
+from app_users.forms import RegisterForm, RestorePasswordForm, ProfileForm
 from app_users.models import UserProfile
 
 
@@ -19,7 +19,20 @@ def account_view(request):
 
 @has_role_decorator('client')
 def profile_view(request):
-    return render(request, 'users/profile.html')
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if form.is_valid():
+            password = form.cleaned_data.get('password')
+            password_confirm = form.cleaned_data.get('password_confirm')
+            if password != password_confirm:
+                form.add_error('password', 'Пароль и пароль подтверждения должны быть одинаковыми')
+                form.add_error('password_confirm', 'Пароль и пароль подтверждения должны быть одинаковыми')
+                return render(request, 'users/profile.html', {'form': form})
+            form.save()
+            return render(request, 'users/profile.html', {'form': form})
+    else:
+        form = ProfileForm(instance=request.user.userprofile)
+    return render(request, 'users/profile.html', {'form': form})
 
 
 class CustomLoginView(LoginView):
