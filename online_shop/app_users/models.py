@@ -14,3 +14,6 @@ class UserProfile(models.Model):
 
     class Meta:
         db_table = 'UserProfile'
+
+    def get_full_name(self):
+        return ' '.join([self.user.first_name, self.user.last_name, self.patronymic])

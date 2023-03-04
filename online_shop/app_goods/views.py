@@ -10,7 +10,7 @@ from rolepermissions.decorators import has_role_decorator
 
 from app_goods.models import Item, ShoppingCart, Good, Review
 from app_goods.utils import try_parse_int
-
+from app_goods.forms import OrderForm
 
 # Create your views here.
 
@@ -98,7 +98,17 @@ def one_order_view(request):
 
 @has_role_decorator('client')
 def order_view(request):
-    return render(request, 'order/order.html')
+    items = ShoppingCart.objects.filter(user_id=request.user.id).select_related('item').all()
+    all_sum = sum([cart.item.price * cart.count for cart in items])
+    if request.method == 'POST':
+        form = OrderForm(post=request.POST, userprofile=request.user.userprofile)
+    else:
+        form = OrderForm(userprofile=request.user.userprofile)
+    return render(request, 'order/order.html', {
+        'form': form,
+        "items": items,
+        "all_sum": all_sum
+    })
 
 
 @has_role_decorator('client')
