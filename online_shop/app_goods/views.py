@@ -10,7 +10,7 @@ from rolepermissions.decorators import has_role_decorator
 
 from app_goods.models import Item, ShoppingCart, Good, Review
 from app_goods.utils import try_parse_int
-
+from app_goods.forms import OrderForm
 
 # Create your views here.
 
@@ -97,8 +97,31 @@ def one_order_view(request):
     return render(request, 'goods/oneorder.html')
 
 @has_role_decorator('client')
-def order_view(request):
-    return render(request, 'order/order.html')
+def order_view(request, *args, **kwargs):
+    items = ShoppingCart.objects.filter(user_id=request.user.id).select_related('item').all()
+    all_sum = sum([cart.item.price * cart.count for cart in items])
+    # берет текущий шаг из uri
+    if 'pk' in kwargs:
+        step_id = kwargs['pk']
+    else:
+        step_id = 1
+    if request.method == 'POST':
+        if request.POST.get('is_final_click'):
+            # TODO: добавить логику обработки заказа
+            print('ok')
+        form = OrderForm(post=request.POST, userprofile=request.user.userprofile)
+    else:
+        form = OrderForm(userprofile=request.user.userprofile)
+    if request.POST.get('next_step') is not None:
+        # берем параметр следующего шага из кнопки
+        step_id = int(request.POST.get('next_step'))
+
+    return render(request, 'order/order.html', {
+        'form': form,
+        "items": items,
+        "all_sum": all_sum,
+        'step_id': step_id
+    })
 
 
 @has_role_decorator('client')
