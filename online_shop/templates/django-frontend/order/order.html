@@ -2,215 +2,237 @@
 {% csrf_token %}
 {% load static %}
 {% block css %}
-  <link rel="stylesheet" href="{% get_static_prefix %}assets/css/fonts.css?v=61281144">
-  <link rel="stylesheet" href="{% get_static_prefix %}assets/css/basic.css?v=61281144">
-  <link rel="stylesheet" href="{% get_static_prefix %}assets/css/extra.css?v=61281144">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/fonts.css?v=61281144">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/basic.css?v=61281144">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/extra.css?v=61281144">
 {% endblock %}
 {% block content %}
-  <div class="Middle Middle_top">
-    <div class="Middle-top">
-      <div class="wrap">
-        <div class="Middle-header">
-          <h1 class="Middle-title">Оформление заказа
-          </h1>
-          <ul class="breadcrumbs Middle-breadcrumbs">
-            <li class="breadcrumbs-item"><a href="{% url 'index' %}">home</a>
-            </li>
-            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оформление заказа</span>
-            </li>
-          </ul>
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">Оформление заказа
+                    </h1>
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="{% url 'index' %}">home</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оформление заказа</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="Section Section_column Section_columnRight Section_columnWide Order">
-      <div class="wrap">
-        <div class="Section-column">
-          <div class="Section-columnSection">
-            <header class="Section-header">
-              <strong class="Section-title">Прогресс заполнения
-              </strong>
-            </header>
-            <div class="Section-columnContent">
-              <ul class="menu menu_vt Order-navigate">
-                <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#step1">Шаг 1. Параметры пользователя</a>
-                </li>
-                <li class="menu-item"><a class="menu-link" href="#step2">Шаг 2. Способ доставки</a>
-                </li>
-                <li class="menu-item"><a class="menu-link" href="#step3">Шаг 3. Способ оплаты</a>
-                </li>
-                <li class="menu-item"><a class="menu-link" href="#step4">Шаг 4. Подтверждение заказа</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="Section-content">
-          <form class="form" action="{% url 'order' %}" method="POST">
-            {% csrf_token %}
-            <div class="Order-block Order-block_OPEN" id="step1">
-              <header class="Section-header Section-header_sm">
-                <h2 class="Section-title">Шаг 1. Параметры пользователя
-                </h2>
-              </header>
-              <div class="row">
-                <div class="row-block">
-                  <div class="form-group">
-                    <label class="form-label" for="name">ФИО
-                    </label>
-                    <input class="form-input" id="name" name="name" type="text" value="{{ form.full_name.value }}" disabled="True"/>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="phone">Телефон
-                    </label>
-                    <input class="form-input" id="phone" name="phone" type="text" value="{{ form.phone_number.value }}" disabled="True"/>
-                  </div>
-                </div>
-                  <div class="row-block">
-                      <div class="form-group">
-                          <label class="form-label" for="mail">E-mail
-                          </label>
-                          <input class="form-input" id="mail" name="mail" type="text" value="{{ form.email.value }}" disabled="True" data-validate="require"/>
-                      </div>
-                      <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{% url 'profile' %}">Редактировать
-                          профиль</a>
-                      </div>
-                  </div>
-              </div>
-              <div class="Order-footer"><a class="btn btn_success Order-next" href="#step2">Дальше</a>
-              </div>
-            </div>
-            <div class="Order-block" id="step2">
-              <header class="Section-header Section-header_sm">
-                <h2 class="Section-title">Шаг 2. Способ доставки
-                </h2>
-              </header>
-              <div class="form-group">
-                  {{ form.delivery_method }}
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="city">{{ form.city.label }}
-                </label>
-                <input class="form-input" id="{{ form.city.id_for_label }}" name="{{ form.city.name }}" value="{{ form.city.value }}" type="text"/>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="address">{{ form.address.label }}
-                </label>
-                <textarea class="form-textarea" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}">{{ form.address.value }}</textarea>
-              </div>
-              <div class="Order-footer"><a class="btn btn_success Order-next" href="#step3">Дальше</a>
-              </div>
-            </div>
-            <div class="Order-block" id="step3">
-              <header class="Section-header Section-header_sm">
-                <h2 class="Section-title">Шаг 3. Способ оплаты
-                </h2>
-              </header>
-                <div class="form-group">
-                    {{ form.payment_method }}
-                </div>
-              <div class="Order-footer">
-                  <a class="btn btn_success Order-next" href="#step4">Дальше</a>
-              </div>
-            </div>
-            <div class="Order-block" id="step4">
-              <header class="Section-header Section-header_sm">
-                <h2 class="Section-title">Шаг 4. Подтверждение заказа
-                </h2>
-              </header>
-              <!--+div.Order.-confirmation-->
-              <div class="Order-infoBlock">
-                <div class="Order-personal">
-                  <div class="row">
-                    <div class="row-block">
-                      <div class="Order-info">
-                        <div class="Order-infoType">ФИО:
+        <div class="Section Section_column Section_columnRight Section_columnWide Order">
+            <div class="wrap">
+                <div class="Section-column">
+                    <div class="Section-columnSection">
+                        <header class="Section-header">
+                            <strong class="Section-title">Прогресс заполнения
+                            </strong>
+                        </header>
+                        <div class="Section-columnContent">
+                            <ul class="menu menu_vt Order-navigate">
+                                <li class="menu-item{% if step_id == 1 %}_ACTIVE menu-item{% endif %}"><a
+                                        class="menu-link" href="#step1">Шаг 1. Параметры пользователя</a>
+                                </li>
+                                <li class="menu-item{% if step_id == 2 %}_ACTIVE menu-item{% endif %}"><a
+                                        class="menu-link" href="#step2">Шаг 2. Способ доставки</a>
+                                </li>
+                                <li class="menu-item{% if step_id == 3 %}_ACTIVE menu-item{% endif %}"><a
+                                        class="menu-link" href="#step3">Шаг 3. Способ оплаты</a>
+                                </li>
+                                <li class="menu-item{% if step_id == 4 %}_ACTIVE menu-item{% endif %}"><a
+                                        class="menu-link" href="#step4">Шаг 4. Подтверждение заказа</a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="Order-infoContent">{{ request.user.userprofile.get_full_name}}
-                        </div>
-                      </div>
-                      <div class="Order-info">
-                        <div class="Order-infoType">Телефон:
-                        </div>
-                        <div class="Order-infoContent">{{ form.phone_number.value }}
-                        </div>
-                      </div>
-                      <div class="Order-info">
-                        <div class="Order-infoType">E-mail:
-                        </div>
-                        <div class="Order-infoContent">{{ form.email.value }}
-                        </div>
-                      </div>
                     </div>
-                    <div class="row-block">
-                      <div class="Order-info Order-info_delivery">
-                          {% comment %}TODO: сделать реализацию{% endcomment %}
-                        <div class="Order-infoType">Тип доставки:
-                        </div>
-                        <div class="Order-infoContent">
-                        </div>
-                      </div>
-                      <div class="Order-info">
-                            {% comment %}TODO: сделать реализацию{% endcomment %}
-                        <div class="Order-infoType">Город:
-                        </div>
-                        <div class="Order-infoContent">
-                        </div>
-                      </div>
-                      <div class="Order-info">
-                            {% comment %}TODO: сделать реализацию{% endcomment %}
-                        <div class="Order-infoType">Адрес:
-                        </div>
-                        <div class="Order-infoContent">
-                        </div>
-                      </div>
-                      <div class="Order-info Order-info_pay">
-                        <div class="Order-infoType">Оплата:
-                        </div>
-                        <div class="Order-infoContent">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <div class="Cart Cart_order">
-                     {% for item in items %}
-                    <div class="Cart-product">
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_pict">
-                                <a class="Cart-pict" href="#"><img class="Cart-img" src="{{ item.item.good.image.url }}"
-                                                                                                       alt="{{ item.item.good.image.file }}"/></a>
-                            </div>
-                            <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">{{ item.item.good.name }}</a>
-                                <div class="Cart-desc">{{ item.item.good.description }}
+                <div class="Section-content">
+                    <form class="form" action="{% url 'order' step_id|add:1 %}" method="POST">
+                        {% csrf_token %}
+                        <div class="Order-block {% if step_id is 1 %}Order-block_OPEN{% endif %}" id="step1">
+                            <header class="Section-header Section-header_sm">
+                                <h2 class="Section-title">Шаг 1. Параметры пользователя
+                                </h2>
+                            </header>
+                            <div class="row">
+                                <div class="row-block">
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">ФИО
+                                        </label>
+                                        <input class="form-input" id="name" name="name" type="text"
+                                               value="{{ form.full_name.value }}" disabled="True"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Телефон
+                                        </label>
+                                        <input class="form-input" id="phone" name="phone" type="text"
+                                               value="{{ form.phone_number.value }}" disabled="True"/>
+                                    </div>
+                                </div>
+                                <div class="row-block">
+                                    <div class="form-group">
+                                        <label class="form-label" for="mail">E-mail
+                                        </label>
+                                        <input class="form-input" id="mail" name="mail" type="text"
+                                               value="{{ form.email.value }}" disabled="True" data-validate="require"/>
+                                    </div>
+                                    <div class="form-group"><a class="btn btn_muted Order-btnReg"
+                                                               href="{% url 'profile' %}">Редактировать
+                                        профиль</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="Cart-block Cart-block_price">
-                                <div class="Cart-price">{{ item.item.price }}
+
+                            <div class="Order-footer">
+                                <div class="Cart-block">
+                                    <button type="submit" name="next_step" value="2" class="btn_primary btn_lg" methods="POST">Дальше
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                                          <div class="Cart-block Cart-block_row">
-                      <div class="Cart-block Cart-block_amount">{{ item.count }} шт.
-                      </div>
-                    </div>
-                    </div>
-                    {% endfor %}
-                  <div class="Cart-total">
-                    <div class="Cart-block Cart-block_total">
-                      <strong class="Cart-title">Итого:
-                      </strong><span class="Cart-price">{{ all_sum }}</span>
-                    </div>
-                    <div class="Cart-block">
-                      <button class="btn btn_primary btn_lg" type="submit" >Оплатить
-                      </button>
-                    </div>
-                  </div>
+                        <div class="Order-block {% if step_id is 2 %}Order-block_OPEN{% endif %}" id="step2">
+                            <header class="Section-header Section-header_sm">
+                                <h2 class="Section-title">Шаг 2. Способ доставки
+                                </h2>
+                            </header>
+                            <div class="form-group">
+                                {{ form.delivery_method }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="city">{{ form.city.label }}
+                                </label>
+                                <input class="form-input" id="{{ form.city.id_for_label }}" name="{{ form.city.name }}"
+                                       value="{{ form.city.value }}" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="address">{{ form.address.label }}
+                                </label>
+                                <textarea class="form-textarea" name="{{ form.address.name }}"
+                                          id="{{ form.address.id_for_label }}">{{ form.address.value }}</textarea>
+                            </div>
+                            <div class="Order-footer">
+                                <div class="Cart-block">
+                                    <button type="submit" name="next_step" value="3"  class="btn_primary btn_lg" methods="POST">Дальше
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Order-block {% if step_id is 3 %}Order-block_OPEN{% endif %}" id="step3">
+                            <header class="Section-header Section-header_sm">
+                                <h2 class="Section-title">Шаг 3. Способ оплаты
+                                </h2>
+                            </header>
+                            <div class="form-group">
+                                {{ form.payment_method }}
+                            </div>
+                            <div class="Order-footer">
+                                <div class="Cart-block">
+                                    <button type="submit" name="next_step" value="4"  class="btn_primary btn_lg" methods="POST">
+                                        Дальше
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Order-block {% if step_id is 4 %}Order-block_OPEN{% endif %}" id="step4">
+                            <header class="Section-header Section-header_sm">
+                                <h2 class="Section-title">Шаг 4. Подтверждение заказа
+                                </h2>
+                            </header>
+                            <!--+div.Order.-confirmation-->
+                            <div class="Order-infoBlock">
+                                <div class="Order-personal">
+                                    <div class="row">
+                                        <div class="row-block">
+                                            <div class="Order-info">
+                                                <div class="Order-infoType">ФИО:
+                                                </div>
+                                                <div class="Order-infoContent">{{ request.user.userprofile.get_full_name }}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info">
+                                                <div class="Order-infoType">Телефон:
+                                                </div>
+                                                <div class="Order-infoContent">{{ form.phone_number.value }}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info">
+                                                <div class="Order-infoType">E-mail:
+                                                </div>
+                                                <div class="Order-infoContent">{{ form.email.value }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-block">
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">Тип доставки: {{ form.delivery_method.value.1 }}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                </div>
+                                            </div>
+                                            <div class="Order-info">
+                                                <div class="Order-infoType">Город: {{ form.city.value }}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                </div>
+                                            </div>
+                                            <div class="Order-info">
+                                                <div class="Order-infoType">Адрес: {{ form.address.value }}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_pay">
+                                                <div class="Order-infoType">Оплата: {{ form.payment_method.value.1 }}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="Cart Cart_order">
+                                    {% for item in items %}
+                                        <div class="Cart-product">
+                                            <div class="Cart-block Cart-block_row">
+                                                <div class="Cart-block Cart-block_pict">
+                                                    <a class="Cart-pict" href="#"><img class="Cart-img"
+                                                                                       src="{{ item.item.good.image.url }}"
+                                                                                       alt="{{ item.item.good.image.file }}"/></a>
+                                                </div>
+                                                <div class="Cart-block Cart-block_info"><a class="Cart-title"
+                                                                                           href="#">{{ item.item.good.name }}</a>
+                                                    <div class="Cart-desc">{{ item.item.good.description }}
+                                                    </div>
+                                                </div>
+                                                <div class="Cart-block Cart-block_price">
+                                                    <div class="Cart-price">{{ item.item.price }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="Cart-block Cart-block_row">
+                                                <div class="Cart-block Cart-block_amount">{{ item.count }} шт.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="Cart-total">
+                                        <div class="Cart-block Cart-block_total">
+                                            <strong class="Cart-title">Итого:
+                                            </strong><span class="Cart-price">{{ all_sum }}</span>
+                                        </div>
+                                        <div class="Cart-block">
+                                            <button class="btn btn_primary btn_lg" name="is_final_click" value="True" type="submit">Оплатить
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-              </div>
             </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
 {% endblock %}

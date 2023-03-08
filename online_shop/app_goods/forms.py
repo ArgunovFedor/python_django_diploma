@@ -14,7 +14,6 @@ class OrderForm(forms.Form):
     address = forms.CharField(required=True, label='Адрес', max_length=150)
     delivery_method = forms.ChoiceField(widget=forms.RadioSelect, choices=DELIVERY_METHODS, required=True)
     payment_method = forms.ChoiceField(widget=forms.RadioSelect, choices=PAYMENT_METHODS, required=True)
-
     def __init__(self, post=None, *args, **kwargs):
         userprofile: UserProfile = kwargs['userprofile']
         self.base_fields['full_name'].initial = userprofile.get_full_name()
