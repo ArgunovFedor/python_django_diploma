@@ -94,7 +94,7 @@ def history_order_view(request):
 
 
 def one_order_view(request):
-    return render(request, 'goods/oneorder.html')
+    return render(request, 'order/oneorder.html')
 
 @has_role_decorator('client')
 def order_view(request, *args, **kwargs):
@@ -107,8 +107,8 @@ def order_view(request, *args, **kwargs):
         step_id = 1
     if request.method == 'POST':
         if request.POST.get('is_final_click'):
-            # TODO: добавить логику обработки заказа
             print('ok')
+            # TODO: добавить логику обработки заказа
         form = OrderForm(post=request.POST, userprofile=request.user.userprofile)
     else:
         form = OrderForm(userprofile=request.user.userprofile)
