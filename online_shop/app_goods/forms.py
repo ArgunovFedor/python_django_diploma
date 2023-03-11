@@ -33,3 +33,7 @@ class OrderForm(forms.Form):
 
     def save(self):
         pass
+
+    def is_valid(self):
+        # TODO: сделать логику валидации формы в зависимости от шага
+        super(OrderForm, self).is_valid()

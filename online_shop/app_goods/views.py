@@ -112,7 +112,7 @@ def order_view(request, *args, **kwargs):
         form = OrderForm(post=request.POST, userprofile=request.user.userprofile)
     else:
         form = OrderForm(userprofile=request.user.userprofile)
-    if request.POST.get('next_step') is not None:
+    if request.POST.get('next_step') and form.is_valid() is not None:
         # берем параметр следующего шага из кнопки
         step_id = int(request.POST.get('next_step'))
 
