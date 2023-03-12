@@ -6,9 +6,9 @@ from app_goods.views import order_view, one_order_view, history_order_view, Cata
 urlpatterns = [
     path('cart/', cart_view, name='cart'),
     path('catalog/', CatalogListView.as_view(), name='catalog'),
-    path('payment/', payment_view, name='payment'),
-    path('paymentsomeone/', payment_someone_view, name='payment-someone'),
-    path('progressPayment/', progress_payment_view, name='progress-payment'),
+    path('payment/<int:id>', payment_view, name='payment'),
+    path('paymentsomeone/<int:id>', payment_someone_view, name='payment-someone'),
+    path('progressPayment', progress_payment_view, name='progress-payment'),
     path('sale/', sale_view, name='sale'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='product'),
     path('historyorder/', history_order_view, name='history-order'),

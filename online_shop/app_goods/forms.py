@@ -14,14 +14,15 @@ class OrderForm(forms.Form):
     address = forms.CharField(required=True, label='Адрес', max_length=150)
     delivery_method = forms.ChoiceField(widget=forms.RadioSelect, choices=DELIVERY_METHODS, required=True)
     payment_method = forms.ChoiceField(widget=forms.RadioSelect, choices=PAYMENT_METHODS, required=True)
+
     def __init__(self, post=None, *args, **kwargs):
         userprofile: UserProfile = kwargs['userprofile']
         self.base_fields['full_name'].initial = userprofile.get_full_name()
         self.base_fields['email'].initial = userprofile.user.email
         self.base_fields['phone_number'].initial = userprofile.phone_number
         if post is not None:
-            self.base_fields['delivery_method'].initial = DELIVERY_METHODS[int(post['delivery_method'])-1]
-            self.base_fields['payment_method'].initial = PAYMENT_METHODS[int(post['payment_method'])-1]
+            self.base_fields['delivery_method'].initial = DELIVERY_METHODS[int(post['delivery_method']) - 1]
+            self.base_fields['payment_method'].initial = PAYMENT_METHODS[int(post['payment_method']) - 1]
             self.base_fields['city'].initial = post['city']
             self.base_fields['address'].initial = post['address']
         else:
