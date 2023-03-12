@@ -117,7 +117,7 @@ class Order(models.Model):
     address = models.CharField(verbose_name='Адрес', max_length=150)
     delivery_method = models.CharField(max_length=2, choices=DELIVERY_METHODS, verbose_name='Тип доставки')
     payment_method = models.CharField(max_length=2, choices=PAYMENT_METHODS, verbose_name='Способ оплаты')
-    account_number = models.IntegerField(verbose_name='номер счёта')
+    account_number = models.IntegerField(null=True, verbose_name='номер счёта')
     is_success = models.BooleanField(default=True)
     class Meta:
         db_table = 'Order'
