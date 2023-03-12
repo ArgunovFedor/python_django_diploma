@@ -61,12 +61,12 @@ class CatalogListView(ListView):
         return new_context
 
 
-def payment_view(request):
-    return render(request, 'goods/payment.html')
+def payment_view(request, id):
+    return render(request, 'goods/payment.html', {"order_id": id})
 
 
-def payment_someone_view(request):
-    return render(request, 'goods/paymentsomeone.html')
+def payment_someone_view(request, id):
+    return render(request, 'goods/paymentsomeone.html', {"order_id": id})
 
 
 class ProductDetailView(DetailView):
