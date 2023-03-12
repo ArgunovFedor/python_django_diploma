@@ -82,6 +82,15 @@ class ProductDetailView(DetailView):
         return context
 
 def progress_payment_view(request):
+    if request.method == 'POST':
+        id = request.POST['order_id']
+        account_number = request.POST['numero1']
+        order_item = Order.objects.filter(id=id).first()
+        order_item.account_number = int(account_number.replace(' ', ''))
+        order_item.is_success = True
+        order_item.save()
+        # очистить корзину
+        ShoppingCart.objects.filter(user_id=request.user.id).delete()
     return render(request, 'goods/progressPayment.html')
 
 
