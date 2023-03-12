@@ -25,6 +25,7 @@
         <div class="Section">
             <div class="wrap">
                 <form class="form Payment" action="{% url 'progress-payment' %}" method="post">
+                    {% csrf_token %}
                     <div class="Payment-card">
                         <input type="hidden" name="order_id" value="{{ order_id }}"/>
                         <div class="form-group">
