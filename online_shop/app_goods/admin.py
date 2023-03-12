@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from app_goods.models import Shop, Good, Item, ShoppingCart, Order, Category, Review
+from app_goods.models import Shop, Good, Item, ShoppingCart, Order, Category, Review, ShoppingCardItemLog
 
 
 # Register your models here.
@@ -23,13 +23,17 @@ class ShoppingCartItemAdmin(admin.ModelAdmin):
     list_display = ['cart', 'item', 'count']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['id', 'user', 'created_at', 'updated_at']
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ['id', 'author']
+    readonly_fields = ("created_at", "updated_at")
+
+class ShoppingCartLogItemAdmin(admin.ModelAdmin):
+    list_display = ['id']
     readonly_fields = ("created_at", "updated_at")
 
 admin.site.register(Shop, ShopAdmin)
@@ -39,3 +43,4 @@ admin.site.register(ShoppingCart, ShoppingCartAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(ShoppingCardItemLog, ShoppingCartLogItemAdmin)

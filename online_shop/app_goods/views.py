@@ -8,7 +8,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
 
-from app_goods.models import Item, ShoppingCart, Good, Review
+from app_goods.models import Item, ShoppingCart, Good, Review, Order, ShoppingCardItemLog
 from app_goods.utils import try_parse_int
 from app_goods.forms import OrderForm
 
@@ -61,12 +61,12 @@ class CatalogListView(ListView):
         return new_context
 
 
-def payment_view(request):
-    return render(request, 'goods/payment.html')
+def payment_view(request, id):
+    return render(request, 'goods/payment.html', {"order_id": id})
 
 
-def payment_someone_view(request):
-    return render(request, 'goods/paymentsomeone.html')
+def payment_someone_view(request, id):
+    return render(request, 'goods/paymentsomeone.html', {"order_id": id})
 
 
 class ProductDetailView(DetailView):
@@ -82,6 +82,15 @@ class ProductDetailView(DetailView):
         return context
 
 def progress_payment_view(request):
+    if request.method == 'POST':
+        id = request.POST['order_id']
+        account_number = request.POST['numero1']
+        order_item = Order.objects.filter(id=id).first()
+        order_item.account_number = int(account_number.replace(' ', ''))
+        order_item.is_success = True
+        order_item.save()
+        # очистить корзину
+        ShoppingCart.objects.filter(user_id=request.user.id).delete()
     return render(request, 'goods/progressPayment.html')
 
 
@@ -94,7 +103,7 @@ def history_order_view(request):
 
 
 def one_order_view(request):
-    return render(request, 'goods/oneorder.html')
+    return render(request, 'order/oneorder.html')
 
 @has_role_decorator('client')
 def order_view(request, *args, **kwargs):
@@ -106,13 +115,31 @@ def order_view(request, *args, **kwargs):
     else:
         step_id = 1
     if request.method == 'POST':
-        if request.POST.get('is_final_click'):
-            # TODO: добавить логику обработки заказа
-            print('ok')
         form = OrderForm(post=request.POST, userprofile=request.user.userprofile)
+        if request.POST.get('is_final_click'):
+            # Берем нужные поля с формы
+            city = form.base_fields['city'].initial
+            address = form.base_fields['address'].initial
+            delivery_method = form.base_fields['delivery_method'].initial
+            payment_method = form.base_fields['payment_method'].initial
+            # Сохраняем в истории заказов
+            order_item = Order.objects.create(user_id=request.user.id, description='Сохраняем корзину в журнале', check_summ=all_sum,
+                                              city=city, address=address,
+                                              delivery_method=delivery_method,
+                                              payment_method=payment_method, is_success=False)
+            item_logs = [ShoppingCardItemLog(item=item.item, count=item.count, price=item.item.price, order=order_item)
+                         for item in items]
+            ShoppingCardItemLog.objects.bulk_create(item_logs)
+
+            if payment_method[0] is '1':
+                # онлайн картой
+                return redirect('payment', order_item.id)
+            elif payment_method[0] is '2':
+                # онлайн со случайного счёта
+                return redirect('payment-someone', order_item.id)
     else:
         form = OrderForm(userprofile=request.user.userprofile)
-    if request.POST.get('next_step') is not None:
+    if request.POST.get('next_step') and form.is_valid() is not None:
         # берем параметр следующего шага из кнопки
         step_id = int(request.POST.get('next_step'))
 

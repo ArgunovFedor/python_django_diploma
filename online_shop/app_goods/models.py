@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 from app_users.models import UserProfile, User
+from app_goods.forms import PAYMENT_METHODS, DELIVERY_METHODS
 
 
 # Create your models here.
@@ -107,11 +108,33 @@ class Order(models.Model):
     """
     История заказов
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    description = models.CharField(max_length=400, verbose_name='описание')
-    check_summ = models.DecimalField(max_digits=400, decimal_places=2, verbose_name='сумма')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.CharField(max_length=400, verbose_name='Описание')
+    check_summ = models.DecimalField(max_digits=400, decimal_places=2, verbose_name='Сумма')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    city = models.CharField(verbose_name='Город', max_length=36)
+    address = models.CharField(verbose_name='Адрес', max_length=150)
+    delivery_method = models.CharField(max_length=2, choices=DELIVERY_METHODS, verbose_name='Тип доставки')
+    payment_method = models.CharField(max_length=2, choices=PAYMENT_METHODS, verbose_name='Способ оплаты')
+    account_number = models.IntegerField(null=True, verbose_name='номер счёта')
+    is_success = models.BooleanField(default=True)
     class Meta:
         db_table = 'Order'
+    def __str__(self):
+        return ' '.join([str(self.id), self.user.username, self.created_at.strftime('%d/%m/%y')])
+
+
+class ShoppingCardItemLog(models.Model):
+    """
+    Журнал корзины. После операции оплаты сохраняется стоимость товара, так как оно может меняться со временем
+    """
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField(verbose_name='количество')
+    price = models.DecimalField(max_digits=400, decimal_places=2, verbose_name='сумма')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'ShoppingCartLog'
