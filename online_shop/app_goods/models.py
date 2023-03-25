@@ -118,10 +118,15 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=2, choices=PAYMENT_METHODS, verbose_name='Способ оплаты')
     account_number = models.IntegerField(null=True, verbose_name='номер счёта')
     is_success = models.BooleanField(default=True)
+
     class Meta:
         db_table = 'Order'
+
     def __str__(self):
         return ' '.join([str(self.id), self.user.username, self.created_at.strftime('%d/%m/%y')])
+
+    def get_absolute_url(self):
+        return reverse('one-order', args=[str(self.id)])
 
 
 class ShoppingCardItemLog(models.Model):

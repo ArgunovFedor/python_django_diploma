@@ -97,12 +97,18 @@ def progress_payment_view(request):
 def sale_view(request):
     return render(request, 'goods/sale.html')
 
-
+@has_role_decorator('client')
 def history_order_view(request):
-    return render(request, 'order/historyorder.html')
+    items = Order.objects.filter(user_id=request.user.id).all()
+    return render(request, 'order/historyorder.html', context={
+        'items': items
+    })
 
+@has_role_decorator('client')
+def one_order_view(request, id):
+    if Order.objects.filter(id=id, user=request.user).exists():
+        ShoppingCardItemLog.objects.filter(order_id=id).all()
 
-def one_order_view(request):
     return render(request, 'order/oneorder.html')
 
 @has_role_decorator('client')
@@ -125,8 +131,8 @@ def order_view(request, *args, **kwargs):
             # Сохраняем в истории заказов
             order_item = Order.objects.create(user_id=request.user.id, description='Сохраняем корзину в журнале', check_summ=all_sum,
                                               city=city, address=address,
-                                              delivery_method=delivery_method,
-                                              payment_method=payment_method, is_success=False)
+                                              delivery_method=delivery_method[1],
+                                              payment_method=payment_method[1], is_success=False)
             item_logs = [ShoppingCardItemLog(item=item.item, count=item.count, price=item.item.price, order=order_item)
                          for item in items]
             ShoppingCardItemLog.objects.bulk_create(item_logs)
