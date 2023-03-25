@@ -1,5 +1,6 @@
-from django.shortcuts import render
 from app_goods.models import Item
+from django.shortcuts import render
+
 
 def index_view(request):
     # TODO: Доделать выборку

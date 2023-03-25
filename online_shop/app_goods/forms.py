@@ -1,6 +1,5 @@
-from django import forms
-
 from app_users.models import UserProfile
+from django import forms
 
 DELIVERY_METHODS = [('1', 'Обычная доставка'), ('2', 'Экспресс доставка')]
 PAYMENT_METHODS = [('1', 'Онлайн картой'), ('2', 'Онлайн со случайного чужого счета')]

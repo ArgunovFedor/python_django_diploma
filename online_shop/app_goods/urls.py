@@ -1,7 +1,9 @@
+from app_goods.views import (CatalogListView, ProductDetailView,
+                             add_cart_item_view, cart_view,
+                             delete_cart_item_view, history_order_view,
+                             one_order_view, order_view, payment_someone_view,
+                             payment_view, progress_payment_view, sale_view)
 from django.urls import path
-from app_goods.views import order_view, one_order_view, history_order_view, CatalogListView, payment_someone_view, \
-    progress_payment_view, sale_view, cart_view, payment_view, ProductDetailView, add_cart_item_view, \
-    delete_cart_item_view
 
 urlpatterns = [
     path('cart/', cart_view, name='cart'),

@@ -1,16 +1,15 @@
+from app_users.forms import ProfileForm, RegisterForm, RestorePasswordForm
+from app_users.models import UserProfile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_role_decorator
-
-from app_users.forms import RegisterForm, RestorePasswordForm, ProfileForm
-from app_users.models import UserProfile
+from rolepermissions.roles import assign_role
 
 
 @has_role_decorator('client')

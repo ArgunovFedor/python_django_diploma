@@ -1,8 +1,7 @@
+from app_goods.forms import DELIVERY_METHODS, PAYMENT_METHODS
+from app_users.models import User, UserProfile
 from django.db import models
 from django.urls import reverse
-
-from app_users.models import UserProfile, User
-from app_goods.forms import PAYMENT_METHODS, DELIVERY_METHODS
 
 
 # Create your models here.
