@@ -1,3 +1,4 @@
+from app_goods.models import Order
 from app_users.forms import ProfileForm, RegisterForm, RestorePasswordForm
 from app_users.models import UserProfile
 from django.contrib import messages
@@ -14,7 +15,10 @@ from rolepermissions.roles import assign_role
 
 @has_role_decorator('client')
 def account_view(request):
-    return render(request, 'users/account.html')
+    item = Order.objects.filter(user_id=request.user.id).order_by('created_at').last()
+    return render(request, 'users/account.html', context={
+        'item': item
+    })
 
 @has_role_decorator('client')
 def profile_view(request):

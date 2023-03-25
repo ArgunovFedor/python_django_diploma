@@ -3,92 +3,97 @@
 {% csrf_token %}
 {% load static %}
 {% block css %}
-  <link rel="stylesheet" href="{% get_static_prefix %}assets/css/fonts.css?v=77507106">
-  <link rel="stylesheet" href="{% get_static_prefix %}assets/css/basic.css?v=77507106">
-  <link rel="stylesheet" href="{% get_static_prefix %}assets/css/extra.css?v=77507106">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/fonts.css?v=77507106">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/basic.css?v=77507106">
+    <link rel="stylesheet" href="{% get_static_prefix %}assets/css/extra.css?v=77507106">
 {% endblock %}
 
 {% block navigation %}
 {% endblock %}
 
 {% block content %}
-  <div class="Middle Middle_top">
-    <div class="Middle-top">
-      <div class="wrap">
-        <div class="Middle-header">
-          <h1 class="Middle-title">Личный кабинет
-          </h1>
-          <ul class="breadcrumbs Middle-breadcrumbs">
-            <li class="breadcrumbs-item"><a href="{% url 'index' %}">home</a>
-            </li>
-            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Личный кабинет</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="Section Section_column Section_columnLeft">
-      <div class="wrap">
-         {% include "users/navigation_bar.html" %}
-        <div class="Section-content">
-          <div class="Account">
-            <div class="Account-group">
-              <div class="Account-column">
-                  <div class="Account-avatar">
-                      <img src="{% if user.userprofile %}{{ user.userprofile.avatar.url }}" alt="{{ user.userprofile.avatar.name }}"/>
-                  {% else %}
-                     <img src="{% get_media_prefix %}images/avatars/default.png" alt="avatar.jpg"/>
-                  {% endif %}
-                  </div>
-              </div>
-              <div class="Account-column">
-                <div class="Account-name">{{ user.first_name}} {{user.last_name}} {{user.userprofile.patronymic}}
-                </div><a class="Account-editLink" href="{% url 'profile' %}">Редактировать профиль</a>
-              </div>
-            </div>
-            <div class="Account-group">
-              <div class="Account-column Account-column_full">
-                <div class="Order Order_anons">
-                  <div class="Order-personal">
-                    <div class="row">
-                      <div class="row-block"><a class="Order-title" href="">Заказ&#32;<span class="Order-numberOrder">№200</span>&#32;от&#32;<span class="Order-dateOrder">21.07.2020</span></a>
-                        <div class="Account-editLink"><a href="{% url 'history-order' %}">История заказов</a>
-                        </div>
-                      </div>
-                      <div class="row-block">
-                        <div class="Order-info Order-info_delivery">
-                          <div class="Order-infoType">Тип доставки:
-                          </div>
-                          <div class="Order-infoContent">Обычная доставка
-                          </div>
-                        </div>
-                        <div class="Order-info Order-info_pay">
-                          <div class="Order-infoType">Оплата:
-                          </div>
-                          <div class="Order-infoContent">Онлайн картой
-                          </div>
-                        </div>
-                        <div class="Order-info">
-                          <div class="Order-infoType">Общая стоимость:
-                          </div>
-                          <div class="Order-infoContent">200.99$
-                          </div>
-                        </div>
-                        <div class="Order-info Order-info_status">
-                          <div class="Order-infoType">Статус:
-                          </div>
-                          <div class="Order-infoContent">Не оплачен
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">Личный кабинет
+                    </h1>
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="{% url 'index' %}">home</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Личный кабинет</span>
+                        </li>
+                    </ul>
                 </div>
-              </div>
             </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+                {% include "users/navigation_bar.html" %}
+                <div class="Section-content">
+                    <div class="Account">
+                        <div class="Account-group">
+                            <div class="Account-column">
+                                <div class="Account-avatar">
+                                    <img src="{% if user.userprofile %}{{ user.userprofile.avatar.url }}"
+                                         alt="{{ user.userprofile.avatar.name }}"/>
+                                    {% else %}
+                                        <img src="{% get_media_prefix %}images/avatars/default.png" alt="avatar.jpg"/>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="Account-column">
+                                <div class="Account-name">{{ user.first_name }} {{ user.last_name }} {{ user.userprofile.patronymic }}
+                                </div>
+                                <a class="Account-editLink" href="{% url 'profile' %}">Редактировать профиль</a>
+                            </div>
+                        </div>
+                        <div class="Account-group">
+                            <div class="Account-column Account-column_full">
+                                <div class="Order Order_anons">
+                                    <div class="Order-personal">
+                                        <div class="row">
+                                            <div class="row-block"><a class="Order-title" href="{{ item.get_absolute_url }}">Заказ&#32;<span
+                                                    class="Order-numberOrder">№{{ item.id }}</span>&#32;от&#32;<span
+                                                    class="Order-dateOrder">{{ item.created_at|date:'d.m.Y' }}</span></a>
+                                                <div class="Account-editLink"><a href="{% url 'history-order' %}">История
+                                                    заказов</a>
+                                                </div>
+                                            </div>
+                                            <div class="row-block">
+                                                <div class="Order-info Order-info_delivery">
+                                                    <div class="Order-infoType">Тип доставки:
+                                                    </div>
+                                                    <div class="Order-infoContent">{{ item.delivery_method}}
+                                                    </div>
+                                                </div>
+                                                <div class="Order-info Order-info_pay">
+                                                    <div class="Order-infoType">Оплата:
+                                                    </div>
+                                                    <div class="Order-infoContent">{{ item.payment_method}}
+                                                    </div>
+                                                </div>
+                                                <div class="Order-info">
+                                                    <div class="Order-infoType">Общая стоимость:
+                                                    </div>
+                                                    <div class="Order-infoContent">{{ item.check_summ}}
+                                                    </div>
+                                                </div>
+                                                <div class="Order-info Order-info_status">
+                                                    <div class="Order-infoType">Статус:
+                                                    </div>
+                                                    <div class="Order-infoContent">{{ item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
