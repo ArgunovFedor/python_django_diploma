@@ -1,21 +1,24 @@
+from app_goods.models import Order
+from app_users.forms import ProfileForm, RegisterForm, RestorePasswordForm
+from app_users.models import UserProfile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_role_decorator
-
-from app_users.forms import RegisterForm, RestorePasswordForm, ProfileForm
-from app_users.models import UserProfile
+from rolepermissions.roles import assign_role
 
 
 @has_role_decorator('client')
 def account_view(request):
-    return render(request, 'users/account.html')
+    item = Order.objects.filter(user_id=request.user.id).order_by('created_at').last()
+    return render(request, 'users/account.html', context={
+        'item': item
+    })
 
 @has_role_decorator('client')
 def profile_view(request):

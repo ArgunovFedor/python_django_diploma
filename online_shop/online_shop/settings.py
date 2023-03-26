@@ -167,3 +167,9 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.mail.ru')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'sample@internet.ru')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '********')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)
+
+
+ERROR_DICT = {
+    'ORDER_01': 'История заказа не привязана к вашей учетной записи',
+    'ORDER_02': 'Ваша корзина пуста. Выберите товар, чтобы сделать заказ'
+}

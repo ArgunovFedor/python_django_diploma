@@ -1,8 +1,7 @@
+from app_goods.forms import DELIVERY_METHODS, PAYMENT_METHODS
+from app_users.models import User, UserProfile
 from django.db import models
 from django.urls import reverse
-
-from app_users.models import UserProfile, User
-from app_goods.forms import PAYMENT_METHODS, DELIVERY_METHODS
 
 
 # Create your models here.
@@ -82,6 +81,8 @@ class Review(models.Model):
     good = models.ForeignKey(Good, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    anonymous_name = models.CharField(max_length=255, null=True, verbose_name='Имя анонима')
+    anonymous_mail = models.EmailField(null=True, verbose_name='Почта анонима')
 
     def __str__(self):
         return str.join(str(self.good.id), self.good.name)
@@ -119,10 +120,20 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=2, choices=PAYMENT_METHODS, verbose_name='Способ оплаты')
     account_number = models.IntegerField(null=True, verbose_name='номер счёта')
     is_success = models.BooleanField(default=True)
+
     class Meta:
         db_table = 'Order'
+
     def __str__(self):
         return ' '.join([str(self.id), self.user.username, self.created_at.strftime('%d/%m/%y')])
+
+    def get_absolute_url(self):
+        return reverse('one-order', args=[str(self.id)])
+
+    def get_status_text(self):
+        if self.is_success:
+            return 'Оплачен'
+        return 'Не оплачен'
 
 
 class ShoppingCardItemLog(models.Model):

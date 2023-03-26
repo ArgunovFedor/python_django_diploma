@@ -1,6 +1,6 @@
+from app_goods.models import (Category, Good, Item, Order, Review, Shop,
+                              ShoppingCardItemLog, ShoppingCart)
 from django.contrib import admin
-
-from app_goods.models import Shop, Good, Item, ShoppingCart, Order, Category, Review, ShoppingCardItemLog
 
 
 # Register your models here.

@@ -1,16 +1,16 @@
 import json
 
+from app_goods.forms import OrderForm
+from app_goods.models import (Good, Item, Order, Review, ShoppingCardItemLog,
+                              ShoppingCart)
+from app_goods.utils import try_parse_int
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
-
-from app_goods.models import Item, ShoppingCart, Good, Review, Order, ShoppingCardItemLog
-from app_goods.utils import try_parse_int
-from app_goods.forms import OrderForm
 
 # Create your views here.
 
@@ -78,8 +78,10 @@ class ProductDetailView(DetailView):
         # у одного товара может быть несколько артиклов и разная цена, но ради упращения
         # будем брать первый попавшийся
         context['item'] = Item.objects.filter(good=context['good']).first()
-        context['reviews'] = Review.objects.filter(good=context['good']).select_related('author').select_related('author__userprofile').all()
+        context['reviews'] = Review.objects.filter(good=context['good']).select_related('author').select_related(
+            'author__userprofile').all()
         return context
+
 
 def progress_payment_view(request):
     if request.method == 'POST':
@@ -98,17 +100,39 @@ def sale_view(request):
     return render(request, 'goods/sale.html')
 
 
+@has_role_decorator('client')
 def history_order_view(request):
-    return render(request, 'order/historyorder.html')
+    items = Order.objects.filter(user_id=request.user.id).all()
+    return render(request, 'order/historyorder.html', context={
+        'items': items
+    })
 
 
-def one_order_view(request):
-    return render(request, 'order/oneorder.html')
+@has_role_decorator('client')
+def one_order_view(request, id):
+    """
+    История заказов. Подробная история
+    :param request:
+    :param id:
+    :return:
+    """
+    # защита от перебора
+    if Order.objects.filter(id=id, user=request.user).exists():
+        order_item = Order.objects.filter(id=id).first()
+        shopping_card_item_logs = ShoppingCardItemLog.objects.filter(order_id=id).all()
+        return render(request, 'order/oneorder.html', context={
+            'order_item': order_item,
+            'shopping_card_items': shopping_card_item_logs
+        })
+    return redirect('error', 'ORDER_01')
+
 
 @has_role_decorator('client')
 def order_view(request, *args, **kwargs):
     items = ShoppingCart.objects.filter(user_id=request.user.id).select_related('item').all()
     all_sum = sum([cart.item.price * cart.count for cart in items])
+    if items.count() == 0:
+        return redirect('error', 'ORDER_02')
     # берет текущий шаг из uri
     if 'pk' in kwargs:
         step_id = kwargs['pk']
@@ -123,10 +147,10 @@ def order_view(request, *args, **kwargs):
             delivery_method = form.base_fields['delivery_method'].initial
             payment_method = form.base_fields['payment_method'].initial
             # Сохраняем в истории заказов
-            order_item = Order.objects.create(user_id=request.user.id, description='Сохраняем корзину в журнале', check_summ=all_sum,
+            order_item = Order.objects.create(user_id=request.user.id, description='', check_summ=all_sum,
                                               city=city, address=address,
-                                              delivery_method=delivery_method,
-                                              payment_method=payment_method, is_success=False)
+                                              delivery_method=delivery_method[1],
+                                              payment_method=payment_method[1], is_success=False)
             item_logs = [ShoppingCardItemLog(item=item.item, count=item.count, price=item.item.price, order=order_item)
                          for item in items]
             ShoppingCardItemLog.objects.bulk_create(item_logs)
@@ -194,3 +218,19 @@ def delete_cart_item_view(request, *args, **kwargs):
     if request.method == 'GET':
         ShoppingCart.objects.filter(user_id=request.user.id, id=item_id).delete()
     return redirect('cart')
+
+
+def add_review(request, id):
+    if request.method == 'POST':
+        text = request.POST['review']
+        if request.user.is_authenticated:
+            user = request.user
+            anonymous_name = None
+            anonymous_mail = None
+        else:
+            user = None
+            anonymous_name = request.POST['name']
+            anonymous_mail = request.POST['email']
+        Review.objects.create(text=text, author=user, good_id=id, anonymous_name=anonymous_name,
+                              anonymous_mail=anonymous_mail)
+    return redirect('product', id)
