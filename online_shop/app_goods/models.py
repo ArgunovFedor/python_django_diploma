@@ -128,6 +128,11 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse('one-order', args=[str(self.id)])
 
+    def get_status_text(self):
+        if self.is_success:
+            return 'Оплачен'
+        return 'Не оплачен'
+
 
 class ShoppingCardItemLog(models.Model):
     """

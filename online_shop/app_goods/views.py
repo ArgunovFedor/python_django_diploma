@@ -12,6 +12,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
 
+
 # Create your views here.
 
 def cart_view(request):
@@ -78,8 +79,10 @@ class ProductDetailView(DetailView):
         # у одного товара может быть несколько артиклов и разная цена, но ради упращения
         # будем брать первый попавшийся
         context['item'] = Item.objects.filter(good=context['good']).first()
-        context['reviews'] = Review.objects.filter(good=context['good']).select_related('author').select_related('author__userprofile').all()
+        context['reviews'] = Review.objects.filter(good=context['good']).select_related('author').select_related(
+            'author__userprofile').all()
         return context
+
 
 def progress_payment_view(request):
     if request.method == 'POST':
@@ -97,12 +100,14 @@ def progress_payment_view(request):
 def sale_view(request):
     return render(request, 'goods/sale.html')
 
+
 @has_role_decorator('client')
 def history_order_view(request):
     items = Order.objects.filter(user_id=request.user.id).all()
     return render(request, 'order/historyorder.html', context={
         'items': items
     })
+
 
 @has_role_decorator('client')
 def one_order_view(request, id):
@@ -122,6 +127,7 @@ def one_order_view(request, id):
         })
     return redirect('error', 'ORDER_01')
 
+
 @has_role_decorator('client')
 def order_view(request, *args, **kwargs):
     items = ShoppingCart.objects.filter(user_id=request.user.id).select_related('item').all()
@@ -140,7 +146,7 @@ def order_view(request, *args, **kwargs):
             delivery_method = form.base_fields['delivery_method'].initial
             payment_method = form.base_fields['payment_method'].initial
             # Сохраняем в истории заказов
-            order_item = Order.objects.create(user_id=request.user.id, description='Сохраняем корзину в журнале', check_summ=all_sum,
+            order_item = Order.objects.create(user_id=request.user.id, description='', check_summ=all_sum,
                                               city=city, address=address,
                                               delivery_method=delivery_method[1],
                                               payment_method=payment_method[1], is_success=False)
