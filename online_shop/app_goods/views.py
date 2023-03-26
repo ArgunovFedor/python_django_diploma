@@ -132,6 +132,8 @@ def one_order_view(request, id):
 def order_view(request, *args, **kwargs):
     items = ShoppingCart.objects.filter(user_id=request.user.id).select_related('item').all()
     all_sum = sum([cart.item.price * cart.count for cart in items])
+    if items.count() == 0:
+        return redirect('error', 'ORDER_02')
     # берет текущий шаг из uri
     if 'pk' in kwargs:
         step_id = kwargs['pk']
