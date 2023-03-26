@@ -164,11 +164,18 @@
                                             <div class="Comment-column">
                                                 <header class="Comment-header">
                                                     <div>
-                                                        <strong class="Comment-title">{{ review.author.userprofile.user.first_name }} {{ review.author.userprofile.user.last_name }}
-                                                        </strong>
-                                                        {% comment %}<span class="Comment-date">December 25&#32;&#32;/&#32;&#32;2017&#32;&#32;/&#32;&#32;22:50</span>{% endcomment %}
-                                                        {% comment %}  TODO: Сделать, чтобы выводило как в шаблоне {% endcomment %}
-                                                        <span class="Comment-date">{{ review.created_at }}&#32;&#32;</span>
+                                                        {% if review.author.userprofile.user is not None %}
+                                                            <strong class="Comment-title">
+                                                                {{ review.author.userprofile.user.first_name }} {{ review.author.userprofile.user.last_name }}
+
+                                                            </strong>
+                                                        {% else %}
+                                                            <strong class="Comment-title">
+                                                                {{ review.anonymous_name|title }}
+                                                            </strong>
+                                                            <div class="Comment-content">Анонимный пользователь&#32;&#32;</div>
+                                                        {% endif %}
+                                                        <span class="Comment-date">{{ review.created_at|date:'M d / Y / H:i' }}&#32;&#32;</span>
                                                     </div>
                                                 </header>
                                                 <div class="Comment-content">{{ review.text }}

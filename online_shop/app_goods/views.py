@@ -12,7 +12,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
 
-
 # Create your views here.
 
 def cart_view(request):
@@ -226,7 +225,12 @@ def add_review(request, id):
         text = request.POST['review']
         if request.user.is_authenticated:
             user = request.user
+            anonymous_name = None
+            anonymous_mail = None
         else:
             user = None
-        Review.objects.create(text=text, author=user, good_id=id)
+            anonymous_name = request.POST['name']
+            anonymous_mail = request.POST['email']
+        Review.objects.create(text=text, author=user, good_id=id, anonymous_name=anonymous_name,
+                              anonymous_mail=anonymous_mail)
     return redirect('product', id)

@@ -81,6 +81,8 @@ class Review(models.Model):
     good = models.ForeignKey(Good, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    anonymous_name = models.CharField(max_length=255, null=True, verbose_name='Имя анонима')
+    anonymous_mail = models.EmailField(null=True, verbose_name='Почта анонима')
 
     def __str__(self):
         return str.join(str(self.good.id), self.good.name)
