@@ -106,10 +106,21 @@ def history_order_view(request):
 
 @has_role_decorator('client')
 def one_order_view(request, id):
+    """
+    История заказов. Подробная история
+    :param request:
+    :param id:
+    :return:
+    """
+    # защита от перебора
     if Order.objects.filter(id=id, user=request.user).exists():
-        ShoppingCardItemLog.objects.filter(order_id=id).all()
-
-    return render(request, 'order/oneorder.html')
+        order_item = Order.objects.filter(id=id).first()
+        shopping_card_item_logs = ShoppingCardItemLog.objects.filter(order_id=id).all()
+        return render(request, 'order/oneorder.html', context={
+            'order_item': order_item,
+            'shopping_card_items': shopping_card_item_logs
+        })
+    return redirect('error', 'ORDER_01')
 
 @has_role_decorator('client')
 def order_view(request, *args, **kwargs):

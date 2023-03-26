@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from online_shop.views import about_view, index_view
+from online_shop.views import about_view, index_view, error_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +26,5 @@ urlpatterns = [
     path('', index_view, name='index'),
     path('', include('app_goods.urls')),
     path('', include('app_users.urls')),
+    path('error/<str:error_code>', error_view, name='error'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
