@@ -219,3 +219,14 @@ def delete_cart_item_view(request, *args, **kwargs):
     if request.method == 'GET':
         ShoppingCart.objects.filter(user_id=request.user.id, id=item_id).delete()
     return redirect('cart')
+
+
+def add_review(request, id):
+    if request.method == 'POST':
+        text = request.POST['review']
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
+        Review.objects.create(text=text, author=user, good_id=id)
+    return redirect('product', id)

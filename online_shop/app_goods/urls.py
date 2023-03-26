@@ -2,7 +2,7 @@ from app_goods.views import (CatalogListView, ProductDetailView,
                              add_cart_item_view, cart_view,
                              delete_cart_item_view, history_order_view,
                              one_order_view, order_view, payment_someone_view,
-                             payment_view, progress_payment_view, sale_view)
+                             payment_view, progress_payment_view, sale_view, add_review)
 from django.urls import path
 
 urlpatterns = [
@@ -19,5 +19,6 @@ urlpatterns = [
     path('order/<int:pk>/', order_view, name='order'),
     path('addCartItem/', add_cart_item_view, name='add-cart-item'),
     path('deleteCartItem/<int:product_id>/', delete_cart_item_view, name='delete_cart_item'),
-    path('viewingHistory/', history_order_view, name='viewing-history')
+    path('viewingHistory/', history_order_view, name='viewing-history'),
+    path('add_review/<int:id>/', add_review, name='add_review'),
 ]
