@@ -12,6 +12,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
 
+
 # Create your views here.
 
 def cart_view(request):
@@ -44,20 +45,35 @@ class CatalogListView(ListView):
     template_name = 'goods/catalog.html'
 
     def get_context_data(self, **kwargs):
+        def set_context(param: str, context_param: dict = None):
+            """
+            Сохраняет параметры поиска в контексте
+            :param param:
+            :param context_param:
+            :return:
+            """
+            item = self.request.GET.get(param)
+            if item is not None:
+                context_param[param] = item
+
         context = super(CatalogListView, self).get_context_data(**kwargs)
-        context['filter'] = self.request.GET.get('filter', 'give-default-value')
-        context['orderby'] = self.request.GET.get('orderby', 'give-default-value')
+        set_context('filter', context)
+        set_context('orderby', context)
+        set_context('price', context)
+        set_context('search_text', context)
         return context
 
     def get_queryset(self):
-        filter_val = self.request.GET.get('filter', None)
-        order = self.request.GET.get('orderby', 'price')
-        if filter_val is not None:
+        filter_text = self.request.GET.get('filter', '')
+        search_text = self.request.GET.get('search_text', '')
+        order = self.request.GET.get('orderby')
+        if filter_text is not None:
             new_context = Item.objects.filter(
-                good__category__name=filter_val,
+                good__category__name__icontains=filter_text,
+                good__name__icontains=search_text
             ).order_by(order)
         else:
-            new_context = Item.objects.order_by(order)
+            new_context = Item.objects.filter(good__name__icontains=search_text).order_by(order)
         return new_context
 
 
