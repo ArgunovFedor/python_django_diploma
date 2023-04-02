@@ -1,6 +1,5 @@
 import json
 from decimal import Decimal
-from unicodedata import decimal
 
 from app_goods.forms import OrderForm
 from app_goods.models import (Good, Item, Order, Review, ShoppingCardItemLog,
