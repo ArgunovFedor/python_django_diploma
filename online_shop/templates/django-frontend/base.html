@@ -191,10 +191,16 @@ p.error-browser
             </div>
             <div class="Header-search">
                 <div class="search">
-                    <form class="form form_search" action="#" method="post">
-                        <input class="search-input" id="query" name="query" type="text"
-                               placeholder="What are you looking for ..."/>
-                        <button class="search-button" type="submit" name="search" id="search"><img
+                    <form class="form form_search" action="{% url 'catalog' %}" method="get">
+                        {% csrf_token %}
+                        <input class="search-input" id="search_text" name="search_text" type="text"
+                                {% if search_text is None %}
+                               placeholder="What are you looking for ..."
+                                {% else %}
+                               value="{{ search_text }}"
+                                {% endif %}
+                        />
+                        <button class="search-button" type="submit"><img
                                 src="{% static 'assets/img/icons/search.svg' %}" alt="search.svg"/>Search
                         </button>
                     </form>
