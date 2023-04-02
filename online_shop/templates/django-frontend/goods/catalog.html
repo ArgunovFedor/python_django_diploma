@@ -31,11 +31,14 @@
                             </strong>
                         </header>
                         <div class="Section-columnContent">
-                            <form class="form" action="#" method="post">
+                            <form class="form" action="{% url 'catalog' %}" method="get">
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <div class="range Section-columnRange">
                                         <input class="range-line" id="price" name="price" type="text" data-type="double"
-                                               data-min="7" data-max="50" data-from="7" data-to="27"/>
+                                               data-min="{{ CATALOG_MIN_PRICE }}" data-max="{{ CATALOG_MAX_PRICE }}"
+                                               data-from="{{ CATALOG_MIN_SELECTED_PRICE }}"
+                                               data-to="{{ CATALOG_MAX_SELECTED_PRICE }}"/>
                                         <div class="range-price">Price:&#32;
                                             <div class="rangePrice">
                                             </div>
@@ -43,27 +46,30 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-input form-input_full" id="title" name="title" type="text"
-                                           placeholder="Название"/>
+                                    <input class="form-input form-input_full" id="search_text" name="search_text" type="text"
+                                            {% if search_text is None %}
+                                           placeholder="Название"
+                                            {% else %}
+                                           value="{{ search_text }}"
+                                            {% endif %}/>
                                 </div>
                                 <div class="form-group">
                                     <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
                                 </div>
                                 <div class="form-group">
                                     <label class="toggle">
-                                        <input type="checkbox"/><span class="toggle-box"></span><span
+                                        <input type="checkbox" id="is_exist" name="is_exist" {% if is_exist %}checked{% endif %}/><span class="toggle-box"></span><span
                                             class="toggle-text">Только товары в наличии</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
                                     <label class="toggle">
-                                        <input type="checkbox"/><span class="toggle-box"></span><span
+                                        <input type="checkbox" id="free_delivery" name="free_delivery"{% if free_delivery %}checked{% endif %}/><span class="toggle-box"></span><span
                                             class="toggle-text">С бесплатной доставкой</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
-                                    <div class="buttons"><a class="btn btn_square btn_dark btn_narrow"
-                                                            href="#">Filter</a>
+                                    <div class="buttons"><button class="btn btn_square btn_dark btn_narrow" type="submit">Filter</button>
                                     </div>
                                 </div>
                             </form>

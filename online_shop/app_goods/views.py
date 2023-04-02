@@ -1,4 +1,6 @@
 import json
+from decimal import Decimal
+from unicodedata import decimal
 
 from app_goods.forms import OrderForm
 from app_goods.models import (Good, Item, Order, Review, ShoppingCardItemLog,
@@ -11,7 +13,6 @@ from django.utils.http import urlencode
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
-
 
 # Create your views here.
 
@@ -61,19 +62,32 @@ class CatalogListView(ListView):
         set_context('orderby', context)
         set_context('price', context)
         set_context('search_text', context)
+        set_context('is_exist', context)
+        set_context('free_delivery', context)
+
+        # передаем диапазон цен для слайдера
+        from django.conf import settings
+        context['CATALOG_MIN_PRICE'], context['CATALOG_MAX_PRICE'] = (settings.CATALOG_MIN_PRICE, settings.CATALOG_MAX_PRICE)
+        context['CATALOG_MIN_SELECTED_PRICE'], context['CATALOG_MAX_SELECTED_PRICE'] = str.split(self.request.GET.get('price'), ';') if self.request.GET.get('price') else (settings.CATALOG_MIN_PRICE, settings.CATALOG_MAX_PRICE)
         return context
 
     def get_queryset(self):
         filter_text = self.request.GET.get('filter', '')
         search_text = self.request.GET.get('search_text', '')
-        order = self.request.GET.get('orderby')
-        if filter_text is not None:
-            new_context = Item.objects.filter(
-                good__category__name__icontains=filter_text,
-                good__name__icontains=search_text
-            ).order_by(order)
-        else:
-            new_context = Item.objects.filter(good__name__icontains=search_text).order_by(order)
+        order = self.request.GET.get('orderby', 'good__name')
+        from django.conf import settings
+        min_price, max_price = (Decimal(i) for i in str.split(self.request.GET.get('price'), ';')) if self.request.GET.get(
+            'price') else (Decimal(settings.CATALOG_MIN_PRICE), Decimal(settings.CATALOG_MAX_PRICE))
+        is_exist = True if self.request.GET.get('is_exist') == 'on' else False
+        free_delivery = True if self.request.GET.get('free_delivery') == 'on' else False
+
+        new_context = Item.objects.filter(
+            good__category__name__icontains=filter_text,
+            good__name__icontains=search_text,
+            price__lte=max_price,
+            price__gte=min_price,
+            count__gte=1 if is_exist else 0
+        ).order_by(order)
         return new_context
 
 
@@ -107,8 +121,13 @@ def progress_payment_view(request):
         order_item.account_number = int(account_number.replace(' ', ''))
         order_item.is_success = True
         order_item.save()
+        shopping_cart = ShoppingCart.objects.filter(user_id=request.user.id).first()
+        item = Item.objects.filter(id=shopping_cart.item.id).first()
+        item.count -= shopping_cart.count
+        # Обновляем количество оставшихся товаров
+        item.save()
         # очистить корзину
-        ShoppingCart.objects.filter(user_id=request.user.id).delete()
+        shopping_cart.delete()
     return render(request, 'goods/progressPayment.html')
 
 
@@ -201,17 +220,18 @@ def add_cart_item_view(request, *args, **kwargs):
     """
     if request.method == 'GET':
         item_id = request.GET['product_id']
-        count_from_get = request.GET.get('count')
-        if count_from_get is not None:
-            count = try_parse_int(request.GET['count'])
-        else:
-            count = 1
-        item = ShoppingCart.objects.filter(user_id=request.user.id, item_id=item_id).first()
-        if item is None:
+        count = try_parse_int(request.GET['count']) if request.GET.get('count') else 1
+        # Проверка на количество товара в складе
+        is_available = Item.objects.filter(id=item_id, count__gt=0).first()
+        if not is_available:
+            return redirect('error', 'CART_01')
+
+        current_item = ShoppingCart.objects.filter(user_id=request.user.id, item_id=item_id).first()
+        if current_item is None:
             ShoppingCart.objects.create(user_id=request.user.id, item_id=item_id, count=count)
             return redirect('cart')
-        item.count += count
-        item.save(update_fields=['count'])
+        current_item.count += count
+        current_item.save(update_fields=['count'])
     # Обновляем страницу из которой клиент передал запрос, чтобы иконка корзины обновилась
     if 'filters' not in request.GET:
         return redirect('cart')
