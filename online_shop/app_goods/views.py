@@ -13,6 +13,7 @@ from django.utils.http import urlencode
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from rolepermissions.decorators import has_role_decorator
+from django.db.models import Count, Sum
 
 # Create your views here.
 
@@ -79,15 +80,40 @@ class CatalogListView(ListView):
         min_price, max_price = (Decimal(i) for i in str.split(self.request.GET.get('price'), ';')) if self.request.GET.get(
             'price') else (Decimal(settings.CATALOG_MIN_PRICE), Decimal(settings.CATALOG_MAX_PRICE))
         is_exist = True if self.request.GET.get('is_exist') == 'on' else False
-        free_delivery = True if self.request.GET.get('free_delivery') == 'on' else False
+        is_free_delivery = True if self.request.GET.get('free_delivery') == 'on' else False
 
-        new_context = Item.objects.filter(
-            good__category__name__icontains=filter_text,
-            good__name__icontains=search_text,
-            price__lte=max_price,
-            price__gte=min_price,
-            count__gte=1 if is_exist else 0
-        ).order_by(order)
+        if order == 'review__count':
+            new_context = Item.objects.filter(
+                good__category__name__icontains=filter_text,
+                good__name__icontains=search_text,
+                price__lte=max_price,
+                price__gte=min_price,
+                count__gte=1 if is_exist else 0,
+                is_free_delivery__gte=is_free_delivery
+            )\
+                .annotate(review__count=Count('good__review'))\
+                .order_by(order)
+        elif order == 'popularity':
+            new_context = Item.objects.filter(
+                good__category__name__icontains=filter_text,
+                good__name__icontains=search_text,
+                price__lte=max_price,
+                price__gte=min_price,
+                count__gte=1 if is_exist else 0,
+                is_free_delivery__gte=is_free_delivery
+            ) \
+                .annotate(popularity=Sum('shoppingcarditemlog__count')) \
+                .order_by(''.join([order]))
+            pass
+        else:
+            new_context = Item.objects.filter(
+                good__category__name__icontains=filter_text,
+                good__name__icontains=search_text,
+                price__lte=max_price,
+                price__gte=min_price,
+                count__gte=1 if is_exist else 0,
+                is_free_delivery__gte=is_free_delivery
+            ).order_by(order)
         return new_context
 
 

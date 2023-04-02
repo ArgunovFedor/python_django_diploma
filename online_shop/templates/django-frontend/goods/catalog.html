@@ -93,16 +93,15 @@
                 </div>
                 <div class="Section-content">
                     <div class="Sort">
-                        <div class="Sort-title">Сортировать по:
-                        </div>
+                        <div class="Sort-title">Сортировать по: </div>
                         <div class="Sort-variants">
                             <a class="Sort-sortBy Sort-sortBy_dec"
-                               href="?page={{ page_obj.number }}&orderby=created_at&filter={{ filter }}">Популярности</a>
-                            <a class="Sort-sortBy" href="?page={{ page_obj.number }}&orderby=price&filter={{ filter }}">Цене</a>
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=popularity">Популярности</a>
+                            <a class="Sort-sortBy" href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=price">Цене</a>
                             <a class="Sort-sortBy"
-                               href="?page={{ page_obj.number }}&orderby=created_at&filter={{ filter }}">Отзывам</a>
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=review__count">Отзывам</a>
                             <a class="Sort-sortBy Sort-sortBy_inc"
-                               href="?page={{ page_obj.number }}&orderby=created_at&filter={{ filter }}">Новизне</a>
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=created_at">Новизне</a>
                         </div>
                     </div>
                     <div class="Cards">
