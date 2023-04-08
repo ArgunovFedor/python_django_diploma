@@ -46,7 +46,7 @@ class CatalogListView(ListView):
     template_name = 'goods/catalog.html'
 
     def get_context_data(self, **kwargs):
-        def set_context(param: str, context_param: dict = None):
+        def set_context(param: str, context_param: dict = None, reverse: bool = False):
             """
             Сохраняет параметры поиска в контексте
             :param param:
@@ -55,11 +55,17 @@ class CatalogListView(ListView):
             """
             item = self.request.GET.get(param)
             if item is not None:
-                context_param[param] = item
+                if not reverse:
+                    context_param[param] = item
+                else:
+                    if '-' in item:
+                        context_param[param] = item[1:]
+                    else:
+                        context_param[param] = ''.join(['-', item])
 
         context = super(CatalogListView, self).get_context_data(**kwargs)
         set_context('filter', context)
-        set_context('orderby', context)
+        set_context('orderby', context, True)
         set_context('price', context)
         set_context('search_text', context)
         set_context('is_exist', context)
@@ -81,7 +87,7 @@ class CatalogListView(ListView):
         is_exist = True if self.request.GET.get('is_exist') == 'on' else False
         is_free_delivery = True if self.request.GET.get('free_delivery') == 'on' else False
 
-        if order == 'review__count':
+        if order in ['review__count', '-review__count']:
             new_context = Item.objects.filter(
                 good__category__name__icontains=filter_text,
                 good__name__icontains=search_text,
@@ -92,7 +98,7 @@ class CatalogListView(ListView):
             )\
                 .annotate(review__count=Count('good__review'))\
                 .order_by(order)
-        elif order == 'popularity':
+        elif order in ['popularity', '-popularity']:
             new_context = Item.objects.filter(
                 good__category__name__icontains=filter_text,
                 good__name__icontains=search_text,
@@ -103,7 +109,6 @@ class CatalogListView(ListView):
             ) \
                 .annotate(popularity=Sum('shoppingcarditemlog__count')) \
                 .order_by(''.join([order]))
-            pass
         else:
             new_context = Item.objects.filter(
                 good__category__name__icontains=filter_text,
