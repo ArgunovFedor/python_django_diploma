@@ -95,13 +95,14 @@
                     <div class="Sort">
                         <div class="Sort-title">Сортировать по: </div>
                         <div class="Sort-variants">
-                            <a class="Sort-sortBy Sort-sortBy_dec"
-                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=popularity">Популярности</a>
-                            <a class="Sort-sortBy" href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=price">Цене</a>
-                            <a class="Sort-sortBy"
-                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=review__count">Отзывам</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc"
-                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}orderby=created_at">Новизне</a>
+                            <a class="Sort-sortBy {% if orderby == '-popularity' %}Sort-sortBy_dec{% elif  orderby == 'popularity'%}Sort-sortBy_inc{% else %}Sort-sortBy{% endif %}"
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}{% if orderby == '-popularity' %}orderby=-popularity{% else %}orderby=popularity{% endif %}">Популярности</a>
+                            <a class="Sort-sortBy {% if orderby == '-price' %}Sort-sortBy_dec{% elif  orderby == 'price'%}Sort-sortBy_inc{% else %}Sort-sortBy{% endif %}"
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}{% if orderby == '-price' %}orderby=-price{% else %}orderby=price{% endif %}">Цене</a>
+                            <a class="Sort-sortBy {% if orderby == '-review__count' %}Sort-sortBy_dec{% elif  orderby == 'review__count'%}Sort-sortBy_inc{% else %}Sort-sortBy{% endif %}"
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}{% if orderby == '-review__count' %}orderby=-review__count{% else %}orderby=review__count{% endif %}">Отзывам</a>
+                            <a class="Sort-sortBy {% if orderby == '-created_at' %}Sort-sortBy_dec{% elif  orderby == 'created_at'%}Sort-sortBy_inc{% else %}Sort-sortBy{% endif %}"
+                               href="?{% for item, value in request.GET.items %}{% if item != 'orderby' %}{{ item }}={{ value }}&{% endif %}{% endfor %}{% if orderby == '-created_at' %}orderby=-created_at{% else %}orderby=created_at{% endif %}">Новизне</a>
                         </div>
                     </div>
                     <div class="Cards">
