@@ -3,7 +3,7 @@
     "model": "auth.user",
     "fields": {
         "password": "pbkdf2_sha256$260000$Bj6XpITYYqP3pYwllDWo2p$A4lAzHIKSE+i3hAI134gf50bpFZZElYEQCv3zBztRgo=",
-        "last_login": "2023-02-24T09:39:26.027Z",
+        "last_login": "2023-05-01T12:15:12.110Z",
         "is_superuser": false,
         "username": "user",
         "first_name": "Ivan",
@@ -12,6 +12,149 @@
         "is_staff": false,
         "is_active": true,
         "date_joined": "2023-02-24T09:07:11.080Z",
+        "groups": [
+            [
+                "client"
+            ]
+        ],
+        "user_permissions": [
+            [
+                "account_view",
+                "auth",
+                "user"
+            ],
+            [
+                "add_cart_item",
+                "auth",
+                "user"
+            ],
+            [
+                "make_an_order",
+                "auth",
+                "user"
+            ],
+            [
+                "top_up_balance",
+                "auth",
+                "user"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$260000$cJresUYSMWWTcIfU9J5osM$XlzM6gez9JJe7Aq97PGskLGUQjNjROWk7Fyom0vWGtc=",
+        "last_login": "2023-04-08T08:39:06.602Z",
+        "is_superuser": false,
+        "username": "user95",
+        "first_name": "Олег",
+        "last_name": "Олегов",
+        "email": "oleg@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-08T08:39:05.169Z",
+        "groups": [
+            [
+                "client"
+            ]
+        ],
+        "user_permissions": [
+            [
+                "account_view",
+                "auth",
+                "user"
+            ],
+            [
+                "add_cart_item",
+                "auth",
+                "user"
+            ],
+            [
+                "make_an_order",
+                "auth",
+                "user"
+            ],
+            [
+                "top_up_balance",
+                "auth",
+                "user"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$260000$zXOb4H43TQnE6ApjXJP8Qy$gXy3kCqa4O05hWwkQ8y2eVOm7+XMSVsFbm2smKQ4XwM=",
+        "last_login": "2023-04-08T08:50:54.337Z",
+        "is_superuser": false,
+        "username": "user88",
+        "first_name": "ad",
+        "last_name": "ad",
+        "email": "rad@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-08T08:50:52.969Z",
+        "groups": [
+            [
+                "client"
+            ]
+        ],
+        "user_permissions": [
+            [
+                "account_view",
+                "auth",
+                "user"
+            ],
+            [
+                "add_cart_item",
+                "auth",
+                "user"
+            ],
+            [
+                "make_an_order",
+                "auth",
+                "user"
+            ],
+            [
+                "top_up_balance",
+                "auth",
+                "user"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$260000$Aqg1EIccLjC2DYkrML0jtb$cpVrTsBL20WXgPxLvfPMlmVeL4VuNFmo7/rtIJxI+9U=",
+        "last_login": "2023-04-15T08:29:51.542Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-15T08:26:07.379Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$260000$eCVUbxLOhZQWvOKCmtWK18$qgGZBCCIMZSH9yFUG2u4Fk8HvO1V2tqy3RtHq35V3vA=",
+        "last_login": "2023-04-15T08:31:52.570Z",
+        "is_superuser": false,
+        "username": "user8",
+        "first_name": "User",
+        "last_name": "User",
+        "email": "test@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-15T08:28:18.320Z",
         "groups": [
             [
                 "client"

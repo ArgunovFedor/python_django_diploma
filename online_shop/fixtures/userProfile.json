@@ -6,8 +6,45 @@
         "date_of_birth": null,
         "city": "New Tea",
         "balance": 0,
+        "avatar": "images/avatars/blasthack_cat_3_1AMRsw4.png",
+        "patronymic": "Ivanovich",
+        "phone_number": "+12125552368"
+    }
+},
+{
+    "model": "app_users.userprofile",
+    "pk": 2,
+    "fields": {
+        "date_of_birth": "2023-01-01",
+        "city": "Yakuts",
+        "balance": 0,
+        "avatar": "images/avatars/blasthack_cat_3_ZUvJRAU.png",
+        "patronymic": "Олегович",
+        "phone_number": null
+    }
+},
+{
+    "model": "app_users.userprofile",
+    "pk": 3,
+    "fields": {
+        "date_of_birth": "2023-01-01",
+        "city": "yht",
+        "balance": 0,
+        "avatar": "images/avatars/blasthack_cat_3_ukm5Sex.png",
+        "patronymic": "ad",
+        "phone_number": null
+    }
+},
+{
+    "model": "app_users.userprofile",
+    "pk": 5,
+    "fields": {
+        "date_of_birth": "2023-01-01",
+        "city": "Yakuts",
+        "balance": 0,
         "avatar": "images/avatars/default.png",
-        "patronymic": "Ivanovich"
+        "patronymic": "User",
+        "phone_number": null
     }
 }
 ]

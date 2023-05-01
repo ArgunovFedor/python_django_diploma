@@ -1,2 +1,131 @@
 [
+{
+    "model": "app_goods.review",
+    "pk": 1,
+    "fields": {
+        "text": "fsedes",
+        "author": [
+            "user"
+        ],
+        "good": 2,
+        "created_at": "2023-03-26T08:30:12.688Z",
+        "updated_at": "2023-03-26T08:30:12.688Z",
+        "anonymous_name": null,
+        "anonymous_mail": null
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 2,
+    "fields": {
+        "text": "dsfs",
+        "author": null,
+        "good": 2,
+        "created_at": "2023-03-26T09:17:01.742Z",
+        "updated_at": "2023-03-26T09:17:01.743Z",
+        "anonymous_name": "fesdes",
+        "anonymous_mail": "desfe"
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 3,
+    "fields": {
+        "text": "fefes",
+        "author": null,
+        "good": 2,
+        "created_at": "2023-03-26T09:21:04.684Z",
+        "updated_at": "2023-03-26T09:21:04.684Z",
+        "anonymous_name": "fedor argunov",
+        "anonymous_mail": "fargunov@internet.ru"
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 4,
+    "fields": {
+        "text": "збс ноут",
+        "author": [
+            "user"
+        ],
+        "good": 1,
+        "created_at": "2023-03-26T09:32:42.875Z",
+        "updated_at": "2023-03-26T09:32:42.875Z",
+        "anonymous_name": null,
+        "anonymous_mail": null
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 5,
+    "fields": {
+        "text": "fes",
+        "author": [
+            "user"
+        ],
+        "good": 1,
+        "created_at": "2023-03-26T09:36:33.909Z",
+        "updated_at": "2023-03-26T09:36:33.909Z",
+        "anonymous_name": null,
+        "anonymous_mail": null
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 6,
+    "fields": {
+        "text": "Ревью",
+        "author": [
+            "user"
+        ],
+        "good": 3,
+        "created_at": "2023-04-01T08:06:57.224Z",
+        "updated_at": "2023-04-01T08:06:57.224Z",
+        "anonymous_name": null,
+        "anonymous_mail": null
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 7,
+    "fields": {
+        "text": "Ревью анонимуса",
+        "author": null,
+        "good": 3,
+        "created_at": "2023-04-01T08:07:24.511Z",
+        "updated_at": "2023-04-01T08:07:24.511Z",
+        "anonymous_name": "Аноним",
+        "anonymous_mail": "po4ta@mail.ru"
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 8,
+    "fields": {
+        "text": "fesf",
+        "author": [
+            "user"
+        ],
+        "good": 3,
+        "created_at": "2023-04-02T09:23:29.402Z",
+        "updated_at": "2023-04-02T09:23:29.402Z",
+        "anonymous_name": null,
+        "anonymous_mail": null
+    }
+},
+{
+    "model": "app_goods.review",
+    "pk": 9,
+    "fields": {
+        "text": "fesf",
+        "author": [
+            "user"
+        ],
+        "good": 2,
+        "created_at": "2023-04-02T09:23:54.569Z",
+        "updated_at": "2023-04-02T09:23:54.569Z",
+        "anonymous_name": null,
+        "anonymous_mail": null
+    }
+}
 ]
