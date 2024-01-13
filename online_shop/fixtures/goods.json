@@ -28,5 +28,15 @@
         "image": "images/slider.png",
         "category": 5
     }
+},
+{
+    "model": "app_goods.good",
+    "pk": 4,
+    "fields": {
+        "name": "Товар",
+        "description": "Товар",
+        "image": "images/slider.png",
+        "category": 10
+    }
 }
 ]
